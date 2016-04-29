@@ -172,11 +172,6 @@ public class Table{
                 if (!isInSubgroup(op(el[i], el[j]), sub))
                     return false;
         
-        System.out.print ("EL:");
-        for (int i=0; el[i]!='0'; i++)
-            System.out.print (" " + el[i]);
-        System.out.println();
-        
         return true;
     }
     

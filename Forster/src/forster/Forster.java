@@ -10,6 +10,9 @@ public class Forster {
         try{
             t = new Table("table 6.txt");
             ArrayList<Integer> a = t.getSubgroups();
+            Hasse h = new Hasse(a);
+            OutputManager out = new OutputManager(h.hasseMatrix(), a);
+            out.generateOutput();
         }
         catch (Exception e){}
         
