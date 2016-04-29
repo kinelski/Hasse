@@ -47,9 +47,9 @@ public class OutputManager {
                     
                     if (hasse[i][j] == 1){
                         writer.print("\t");
-                        writer.print(intToString(array.get(i)));
-                        writer.print(" -> ");
                         writer.print(intToString(array.get(j)));
+                        writer.print(" -> ");
+                        writer.print(intToString(array.get(i)));
                         writer.println(";");
                     }
                     

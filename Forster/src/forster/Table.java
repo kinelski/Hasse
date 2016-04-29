@@ -73,9 +73,6 @@ public class Table{
                         char right = op( intToChar(i), op(intToChar(j), intToChar(k)) );
                         
                         if (left != right){
-                            System.out.println("i = " + i);
-                            System.out.println("j = " + j);
-                            System.out.println("k = " + k);
                             System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
                             try{
                                 if (buffer != null) buffer.close();

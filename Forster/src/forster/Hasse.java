@@ -36,7 +36,7 @@ public class Hasse {
             return false;
     }
     
-    public int[][] edgeMatrix(){
+    public void edgeMatrix(){
         
         for (int i=0; i < subgroups.size(); i++){
             for (int j=0; j < subgroups.size(); j++){
@@ -49,19 +49,26 @@ public class Hasse {
             for (int j=0; j < subgroups.size(); j++){
                 if (isContained(subgroups.get(i),subgroups.get(j)) && i!=j){
                     edges[i][j]=1;
-                    indegree[j]++;
+                    indegree[i]++; //i
                 }
             }
         }
         
-        return edges;
     }
     
-    public int[] topologicalSort(){
+    public void topologicalSort(){
+        edgeMatrix();
+        
+        boolean[] used = new boolean[subgroups.size()];
+        
+        for (int i=0; i<subgroups.size(); i++)
+            used[i] = false;
+        
         for (int i=0; i < subgroups.size(); i++){
             if (indegree[i]==0){
                 S[lastS]=i;
                 lastS++;
+                used[i] = true;
             }
         }
         
@@ -71,30 +78,38 @@ public class Hasse {
             lastT++;
             
             for (int j=0; j < subgroups.size(); j++){
-                if (edges[topological[lastT]][j] == 1){
-                    indegree[j]--;
+                
+                if (!used[j]){
+                    if (edges[j][topological[lastT-1]] >= 1){
+                        indegree[j]--;
+                    }
+
+                    if (indegree[j] == 0){
+                        S[lastS]=j;
+                        lastS++;
+                        used[j] = true;
+                    }
                 }
-                if (edges[topological[lastT]][j]==0){
-                    S[lastS]=j;
-                    lastS++;
-                }
+                
             }
         }
         
-        return topological;
     }
     
     public int[][] hasseMatrix(){
-        for (int i=lastT-1; i >= 0; i--){
+        topologicalSort();
+        
+        for (int i=0; i < lastT; i++){
             int first = -1;
             
-            for (int j=i-1; j >= 0; j--){
+            for (int j=i+1; j < lastT; j++){
                 if (first < 0){
-                    if (edges[topological[i]][topological[j]] == 1)
+                    if (edges[topological[j]][topological[i]] == 1)
                         first = j;
                 } else {
-                    if (edges[topological[first]][topological[j]] == 1)
-                        edges[topological[i]][topological[j]] = 0;
+                    if (edges[topological[j]][topological[first]] == 1
+                            && edges[topological[j]][topological[i]] == 1)
+                        edges[topological[j]][topological[i]] = 0;
                 }
             }
         }

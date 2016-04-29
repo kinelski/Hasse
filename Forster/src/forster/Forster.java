@@ -8,7 +8,7 @@ public class Forster {
         Table t;
         
         try{
-            t = new Table("table 6.txt");
+            t = new Table("table 8.txt");
             ArrayList<Integer> a = t.getSubgroups();
             Hasse h = new Hasse(a);
             OutputManager out = new OutputManager(h.hasseMatrix(), a);
