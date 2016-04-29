@@ -52,18 +52,6 @@ public class Table{
                     throw new Exception();
                 }
             
-            //Elemento nulo
-            for (int i=0; i<size; i++)
-                if (op('1', intToChar(i)) != intToChar(i)){
-                    System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
-                    try{
-                        if (buffer != null) buffer.close();
-                    }
-                    catch (Exception e){}
-                    
-                    throw new Exception();
-                }
-            
             //Fechamento
             for (int i=0; i<size; i++)
                 for (int j=0; j<size; j++)
