@@ -9,7 +9,7 @@ public class Table{
     private char inv[];
     private int size;
     
-    public Table (String filename){
+    public Table (String filename) throws Exception {
         
         BufferedReader buffer = null;
         String input = "", line;
@@ -39,6 +39,65 @@ public class Table{
                     if (table[i][j] == '1')
                         inv[i] = intToChar(j);
                 }
+            
+            //Inverso
+            for (int i=0; i<size; i++)
+                if (inv[i] == '0'){
+                    System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
+                    try{
+                        if (buffer != null) buffer.close();
+                    }
+                    catch (Exception e){}
+                    
+                    throw new Exception();
+                }
+            
+            //Elemento nulo
+            for (int i=0; i<size; i++)
+                if (op('1', intToChar(i)) != intToChar(i)){
+                    System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
+                    try{
+                        if (buffer != null) buffer.close();
+                    }
+                    catch (Exception e){}
+                    
+                    throw new Exception();
+                }
+            
+            //Fechamento
+            for (int i=0; i<size; i++)
+                for (int j=0; j<size; j++)
+                    if (charToInt(op(intToChar(i), intToChar(j))) >= size){
+                        System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
+                        try{
+                            if (buffer != null) buffer.close();
+                        }
+                        catch (Exception e){}
+                    
+                        throw new Exception();
+                    }
+            
+            //Transitividade
+            for (int i=0; i<size; i++)
+                for (int j=0; j<size; j++)
+                    for (int k=0; k<size; k++){
+                        char left = op( op(intToChar(i), intToChar(j)), intToChar(k) );
+                        char right = op( intToChar(i), op(intToChar(j), intToChar(k)) );
+                        
+                        if (left != right){
+                            System.out.println("i = " + i);
+                            System.out.println("j = " + j);
+                            System.out.println("k = " + k);
+                            System.out.println ("Entrada invalida. Nao satisfaz as propriedades de grupo.");
+                            try{
+                                if (buffer != null) buffer.close();
+                            }
+                            catch (Exception e){}
+                    
+                            throw new Exception();
+                        }
+                    }
+                    
         }
         
         catch (Exception e){
@@ -88,9 +147,6 @@ public class Table{
     
     public boolean isInSubgroup (char c, int sub){
         int toInt;
-        
-        if (c == '0')
-            return false;
         
         toInt = charToInt(c);
         return (sub >> toInt)%2 == 1;
